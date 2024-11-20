@@ -1,0 +1,2 @@
+Laptop,15000.00,10,Elektronik
+Meja,300.00,50,Furnitur
