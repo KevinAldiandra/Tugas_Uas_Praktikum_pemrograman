@@ -22,6 +22,3 @@ void save_member() {
     }
     fclose(file);
 }
-
-// Other member functions like tambah_member, tambah_poin_member, etc.
-
