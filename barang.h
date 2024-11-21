@@ -17,7 +17,5 @@ extern int total_barang;
 
 void load_barang();
 void save_barang();
-// Declare other barang functions here like tambah_barang, hapus_barang, etc.
 
 #endif
-
