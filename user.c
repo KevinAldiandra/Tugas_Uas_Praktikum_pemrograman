@@ -14,5 +14,3 @@ void load_user() {
         fclose(file);
     }
 }
-
-// Other user functions like login
