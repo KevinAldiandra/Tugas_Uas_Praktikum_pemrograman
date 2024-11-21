@@ -22,5 +22,3 @@ void save_barang() {
     }
     fclose(file);
 }
-
-// Other barang functions like tambah_barang, hapus_barang, etc.
