@@ -13,6 +13,5 @@ extern int total_member;
 
 void load_member();
 void save_member();
-// Declare other member functions here like tambah_member, tambah_poin_member, etc.
 
 #endif
