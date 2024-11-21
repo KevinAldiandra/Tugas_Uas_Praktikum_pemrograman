@@ -13,6 +13,5 @@ extern User user[MAX];
 extern int total_user;
 
 void load_user();
-// Declare other user functions like login here
 
 #endif
