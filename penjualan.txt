@@ -1,0 +1,11 @@
+Waktu: 2024-11-21 02:43:35
+Barang: Box, Stok: 5, Jumlah Beli: 3, Harga per Item: 3000.00, Total Harga: 9000.00
+Barang: Gelang, Stok: 3, Jumlah Beli: 1, Harga per Item: 4000.00, Total Harga: 4000.00
+Diskon: 1300.00
+Grand Total Bayar: 11700.00
+=====================
+Waktu: 2024-11-21 03:20:37
+Barang: Box, Stok: 5, Jumlah Beli: 1, Harga per Item: 3000.00, Total Harga: 3000.00
+Diskon: 300.00
+Grand Total Bayar: 2700.00
+=====================
