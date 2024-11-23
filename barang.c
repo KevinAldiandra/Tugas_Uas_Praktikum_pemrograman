@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
+// Define a structure for each item
 typedef struct {
     char nama[50];
     char kategori[50];
@@ -11,9 +12,10 @@ typedef struct {
     int stok;
 } Barang;
 
-Barang daftarBarang[100]; 
-int totalBarang = 0;  
+Barang daftarBarang[100]; // Maksimal 100 items
+int totalBarang = 0;  // Jumlah item
 
+// Fungsi untuk memuat data barang dari file
 void loadBarangFromFile() {
   FILE *file = fopen("barang.txt", "r");
   if (file == NULL) {
@@ -21,41 +23,47 @@ void loadBarangFromFile() {
     return;
   }
 
+  // Read data from file line by line
   while (fscanf(file, "%s %s %f %d", daftarBarang[totalBarang].nama,
                 daftarBarang[totalBarang].kategori,
                 &daftarBarang[totalBarang].harga,
                 &daftarBarang[totalBarang].stok) == 4) {
     totalBarang++;
     if (totalBarang >= 100)
-      break; 
+      break; // Ensure we don't exceed the array size
   }
 
   fclose(file);
 }
 
+// Fungsi untuk mendapatkan total jumlah barang
 int getTotalBarang() { return totalBarang; }
 
+// Fungsi untuk mendapatkan nama barang berdasarkan index
 const char *getNamaBarangByIndex(int index) {
   if (index >= 0 && index < totalBarang) {
     return daftarBarang[index].nama;
   }
-  return NULL; 
+  return NULL; // If index is invalid
 }
 
+// Fungsi untuk mendapatkan harga barang berdasarkan index
 float getHargaBarangByIndex(int index) {
   if (index >= 0 && index < totalBarang) {
     return daftarBarang[index].harga;
   }
-  return -1;
+  return -1; // If index is invalid
 }
 
+// Fungsi untuk mendapatkan stok barang berdasarkan index
 int getStokBarangByIndex(int index) {
   if (index >= 0 && index < totalBarang) {
     return daftarBarang[index].stok;
   }
-  return -1;
+  return -1; // If index is invalid
 }
 
+// Fungsi untuk mendapatkan kategori barang berdasarkan index
 void getKategoriBarangByIndex(int index, char *kategori) {
   if (index >= 0 && index < totalBarang) {
     strcpy(kategori, daftarBarang[index].kategori);
@@ -64,6 +72,7 @@ void getKategoriBarangByIndex(int index, char *kategori) {
   }
 }
 
+// Fungsi untuk mengurangi stok barang setelah pembelian
 void updateStokBarang(const char *namaBarang, int stokBaru) {
   FILE *file = fopen("data/barang.txt", "r");
   if (file == NULL) {
@@ -84,7 +93,7 @@ void updateStokBarang(const char *namaBarang, int stokBaru) {
 
   while (fscanf(file, "%s %d %f %s", itemName, &stok, &harga, kategori) != EOF) {
     if (strcmp(itemName, namaBarang) == 0) {
-      stok = stokBaru; 
+      stok = stokBaru; // Update stok
     }
     fprintf(tempFile, "%s %d %.2f %s\n", itemName, stok, harga, kategori);
   }
@@ -92,8 +101,8 @@ void updateStokBarang(const char *namaBarang, int stokBaru) {
   fclose(file);
   fclose(tempFile);
 
-  remove("data/barang.txt");
-  rename("data/temp_barang.txt", "data/barang.txt"); 
+  remove("data/barang.txt"); // Menghapus file asli
+  rename("data/temp_barang.txt", "data/barang.txt"); // Menamai file sementara menjadi file barang
 }
 
 void menuBarang() {
@@ -145,6 +154,7 @@ void tambahBarang() {
   int stok;
   float harga;
 
+  // Menampilkan kategori yang ada
   int kategoriCount = getKategoriCount();
   if (kategoriCount == 0) {
     printf("Tidak ada kategori yang tersedia. Tambahkan kategori terlebih "
@@ -153,6 +163,7 @@ void tambahBarang() {
     return;
   }
 
+  // Menampilkan daftar kategori
   char categories[kategoriCount][50];
   getKategoriList(categories);
 
@@ -165,12 +176,14 @@ void tambahBarang() {
   printf("Masukkan pilihan kategori (1 - %d): ", kategoriCount);
   scanf("%d", &kategoriPilihan);
 
+  // Validasi pilihan kategori
   if (kategoriPilihan < 1 || kategoriPilihan > kategoriCount) {
     printf("Kategori tidak valid.\n");
     fclose(file);
     return;
   }
 
+  // Menambahkan barang
   printf("Masukkan nama barang: ");
   scanf("%s", nama);
   printf("Masukkan stok barang: ");
@@ -178,6 +191,7 @@ void tambahBarang() {
   printf("Masukkan harga barang: ");
   scanf("%f", &harga);
 
+  // Menyimpan data barang dan kategori ke file
   fprintf(file, "%s %d %.2f %s\n", nama, stok, harga,
           categories[kategoriPilihan - 1]);
   fclose(file);
@@ -208,6 +222,8 @@ void hapusBarang() {
 
   int found = 0;
 
+  // Membaca file barang dan menyalin ke file sementara, kecuali barang yang
+  // ingin dihapus
   while (fscanf(file, "%s %d %f %s", itemName, &stok, &harga, kategori) !=
          EOF) {
     if (strcmp(itemName, nama) != 0) {
@@ -221,13 +237,13 @@ void hapusBarang() {
   fclose(tempFile);
 
   if (found) {
-    remove("data/barang.txt");
+    remove("data/barang.txt"); // Menghapus file asli
     rename("data/temp_barang.txt",
-           "data/barang.txt"); 
+           "data/barang.txt"); // Menamai file sementara menjadi file barang
     printf("Barang '%s' berhasil dihapus.\n", nama);
   } else {
     printf("Barang dengan nama '%s' tidak ditemukan.\n", nama);
-    remove("data/temp_barang.txt"); 
+    remove("data/temp_barang.txt"); // Menghapus file sementara
   }
 }
 
@@ -255,12 +271,14 @@ void tambahStokBarang() {
 
   int found = 0;
 
+  // Membaca file barang dan menyalin ke file sementara sambil menambah stok
+  // barang yang ditemukan
   while (fscanf(file, "%s %d %f %s", itemName, &stok, &harga, kategori) !=
          EOF) {
     if (strcmp(itemName, nama) == 0) {
       printf("Masukkan jumlah stok yang ingin ditambahkan: ");
       scanf("%d", &stokTambah);
-      stok += stokTambah;
+      stok += stokTambah; // Menambah stok
       found = 1;
     }
     fprintf(tempFile, "%s %d %.2f %s\n", itemName, stok, harga, kategori);
@@ -270,13 +288,13 @@ void tambahStokBarang() {
   fclose(tempFile);
 
   if (found) {
-    remove("data/barang.txt"); 
+    remove("data/barang.txt"); // Menghapus file asli
     rename("data/temp_barang.txt",
-           "data/barang.txt"); 
+           "data/barang.txt"); // Menamai file sementara menjadi file barang
     printf("Stok barang '%s' berhasil ditambahkan.\n", nama);
   } else {
     printf("Barang dengan nama '%s' tidak ditemukan.\n", nama);
-    remove("data/temp_barang.txt"); 
+    remove("data/temp_barang.txt"); // Menghapus file sementara
   }
 }
 
@@ -304,6 +322,8 @@ void kurangiStokBarang() {
 
   int found = 0;
 
+  // Membaca file barang dan menyalin ke file sementara sambil mengurangi stok
+  // barang yang ditemukan
   while (fscanf(file, "%s %d %f %s", itemName, &stok, &harga, kategori) !=
          EOF) {
     if (strcmp(itemName, nama) == 0) {
@@ -315,7 +335,7 @@ void kurangiStokBarang() {
         fclose(tempFile);
         return;
       }
-      stok -= stokKurang; 
+      stok -= stokKurang; // Mengurangi stok
       found = 1;
     }
     fprintf(tempFile, "%s %d %.2f %s\n", itemName, stok, harga, kategori);
@@ -325,13 +345,13 @@ void kurangiStokBarang() {
   fclose(tempFile);
 
   if (found) {
-    remove("data/barang.txt");
+    remove("data/barang.txt"); // Menghapus file asli
     rename("data/temp_barang.txt",
-           "data/barang.txt"); 
+           "data/barang.txt"); // Menamai file sementara menjadi file barang
     printf("Stok barang '%s' berhasil dikurangi.\n", nama);
   } else {
     printf("Barang dengan nama '%s' tidak ditemukan.\n", nama);
-    remove("data/temp_barang.txt"); 
+    remove("data/temp_barang.txt"); // Menghapus file sementara
   }
 }
 
@@ -374,7 +394,7 @@ float getHargaBarang(char *nama) {
   }
 
   fclose(file);
-  return -1; 
+  return -1; // Jika barang tidak ditemukan
 }
 
 int getStokBarang(char *nama) {
@@ -397,6 +417,5 @@ int getStokBarang(char *nama) {
   }
 
   fclose(file);
-  return -1; 
+  return -1; // Jika barang tidak ditemukan
 }
-
