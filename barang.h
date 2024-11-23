@@ -9,4 +9,5 @@ void kurangiStokBarang();
 void lihatBarang();
 float getHargaBarang(char *nama);
 
-#endif
+#endif // BARANG_H
+
