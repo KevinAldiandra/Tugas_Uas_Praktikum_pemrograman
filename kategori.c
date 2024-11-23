@@ -19,6 +19,7 @@ void menuKategori() {
       lihatKategori();
       break;
     case 0:
+      printf("Kembali ke menu utama.\n");
       break;
     default:
       printf("Pilihan tidak valid.\n");
@@ -58,6 +59,7 @@ void lihatKategori() {
   fclose(file);
 }
 
+// Fungsi untuk mendapatkan jumlah kategori yang ada
 int getKategoriCount() {
   FILE *file = fopen("data/kategori.txt", "r");
   if (file == NULL) {
