@@ -4,8 +4,8 @@
 void menuKategori();
 void tambahKategori();
 void lihatKategori();
-int getKategoriCount(); 
+int getKategoriCount(); // Fungsi untuk mendapatkan jumlah kategori
 void getKategoriList(
-    char categories[][50]); 
+    char categories[][50]); // Fungsi untuk mendapatkan daftar kategori
 
 #endif
