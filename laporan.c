@@ -1,7 +1,6 @@
 #include "laporan.h"
 #include <stdio.h>
 
-// Fungsi untuk melihat laporan penjualan
 void lihatLaporan() {
   FILE *file = fopen("data/laporan.txt", "r");
   if (file == NULL) {
